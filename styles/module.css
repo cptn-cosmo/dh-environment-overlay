@@ -1,0 +1,104 @@
+/* Scene Config Styles */
+.dh-environment-wrapper {
+    margin-top: 10px;
+    padding: 5px;
+    border: 1px solid var(--color-border-light-2);
+    border-radius: 4px;
+    background: rgba(0, 0, 0, 0.05);
+}
+
+.dh-environment-drop-zone {
+    height: 50px;
+    border: 2px dashed var(--color-border-light-2);
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-text-light-2);
+    font-size: 14px;
+    transition: background-color 0.2s, border-color 0.2s;
+}
+
+.dh-environment-drop-zone.drag-hover {
+    background-color: rgba(0, 255, 0, 0.1);
+    border-color: var(--color-text-green);
+    color: var(--color-text-green);
+}
+
+.dh-environment-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 5px;
+}
+
+.dh-environment-img {
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+    border: 1px solid var(--color-border-dark);
+    border-radius: 4px;
+}
+
+.dh-environment-name {
+    flex: 1;
+    font-weight: bold;
+}
+
+.dh-environment-remove {
+    cursor: pointer;
+    color: var(--color-text-dark-inactive);
+}
+
+.dh-environment-remove:hover {
+    color: var(--color-text-error);
+}
+
+/* Overlay Styles */
+#dh-environment-overlay {
+    position: fixed;
+    /* Default fallback if flags missing */
+    top: 100px;
+    right: 320px;
+    z-index: 50;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+    pointer-events: all;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 80px;
+    /* Constrain width for centering */
+}
+
+#dh-environment-overlay img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    /* Border color handled via inline style now */
+    border: 3px solid #ffcc00;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    background-color: #000;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+#dh-environment-overlay:hover img {
+    transform: scale(1.05);
+    box-shadow: 0 0 15px rgba(255, 204, 0, 0.6);
+}
+
+.dh-environment-overlay-name {
+    margin-top: 5px;
+    background: rgba(0, 0, 0, 0.8);
+    color: #fff;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 12px;
+    text-align: center;
+    white-space: nowrap;
+    text-shadow: 1px 1px 2px #000;
+    pointer-events: none;
+    max-width: 150px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
