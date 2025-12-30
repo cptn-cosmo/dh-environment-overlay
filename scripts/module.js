@@ -4,11 +4,20 @@ const FLAG_KEY = "environmentUuid";
 Hooks.once("init", () => {
     console.log(`${MODULE_ID} | Initializing Daggerheart Environment Overlay`);
 
+    // Register Menu
+    game.settings.registerMenu(MODULE_ID, "overlayConfig", {
+        name: "Overlay Configuration",
+        label: "Configure Overlay Style",
+        hint: "Customize the size, shape, and color of the environment overlay.",
+        icon: "fas fa-palette",
+        type: EnvironmentOverlayConfig,
+        restricted: true
+    });
+
     game.settings.register(MODULE_ID, "borderColor", {
         name: "Overlay Border Color",
-        hint: "Color of the environment token border.",
         scope: "world",
-        config: true,
+        config: false,
         type: String,
         default: "#f3c267",
         onChange: () => renderEnvironmentOverlay()
@@ -16,44 +25,114 @@ Hooks.once("init", () => {
 
     game.settings.register(MODULE_ID, "iconSize", {
         name: "Icon Size",
-        hint: "Size of the environment token in pixels.",
         scope: "world",
-        config: true,
+        config: false,
         type: Number,
-        range: {
-            min: 30,
-            max: 200,
-            step: 5
-        },
         default: 80,
         onChange: () => renderEnvironmentOverlay()
     });
 
     game.settings.register(MODULE_ID, "iconShape", {
         name: "Icon Shape",
-        hint: "Shape of the environment token overlay.",
         scope: "world",
-        config: true,
+        config: false,
         type: String,
-        choices: {
-            "rounded": "Rounded Square",
-            "square": "Square",
-            "circle": "Circle"
-        },
         default: "rounded",
         onChange: () => renderEnvironmentOverlay()
     });
 
     game.settings.register(MODULE_ID, "showName", {
         name: "Show Actor Name",
-        hint: "Display the environment actor's name below the token.",
         scope: "world",
-        config: true,
+        config: false,
         type: Boolean,
         default: true,
         onChange: () => renderEnvironmentOverlay()
     });
 });
+
+/**
+ * Configuration Application
+ */
+/**
+ * Configuration Application
+ */
+const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api;
+
+class EnvironmentOverlayConfig extends HandlebarsApplicationMixin(ApplicationV2) {
+    static DEFAULT_OPTIONS = {
+        tag: "form",
+        id: "dh-environment-overlay-config",
+        window: {
+            title: "Environment Overlay Configuration",
+            icon: "fas fa-palette",
+            resizable: false
+        },
+        position: {
+            width: 500,
+            height: "auto"
+        },
+        classes: ["daggerheart", "dialog", "dh-style", "module"],
+        actions: {
+            reset: EnvironmentOverlayConfig.onReset
+        },
+        form: {
+            handler: EnvironmentOverlayConfig.onSubmit,
+            closeOnSubmit: true
+        }
+    };
+
+    static PARTS = {
+        form: {
+            template: "modules/dh-environment-overlay/templates/overlay-config.hbs"
+        }
+    };
+
+    async _prepareContext(options) {
+        return {
+            borderColor: game.settings.get(MODULE_ID, "borderColor"),
+            iconSize: game.settings.get(MODULE_ID, "iconSize"),
+            iconShape: game.settings.get(MODULE_ID, "iconShape"),
+            showName: game.settings.get(MODULE_ID, "showName"),
+            shapes: {
+                "rounded": "Rounded Square",
+                "square": "Square",
+                "circle": "Circle"
+            }
+        };
+    }
+
+    _onRender(context, options) {
+        super._onRender(context, options);
+
+        // Update range value display
+        const html = this.element;
+        const rangeInput = html.querySelector('input[name="iconSize"]');
+        const rangeValue = html.querySelector('.range-value');
+
+        if (rangeInput && rangeValue) {
+            rangeInput.addEventListener('input', (event) => {
+                rangeValue.textContent = event.target.value;
+            });
+        }
+    }
+
+    static async onReset(event, target) {
+        await game.settings.set(MODULE_ID, "borderColor", "#f3c267");
+        await game.settings.set(MODULE_ID, "iconSize", 80);
+        await game.settings.set(MODULE_ID, "iconShape", "rounded");
+        await game.settings.set(MODULE_ID, "showName", true);
+        this.render();
+        ui.notifications.info("Environment Overlay settings reset to defaults.");
+    }
+
+    static async onSubmit(event, form, formData) {
+        const data = formData.object;
+        for (let [key, value] of Object.entries(data)) {
+            await game.settings.set(MODULE_ID, key, value);
+        }
+    }
+}
 
 /**
  * Handle Scene Configuration Render

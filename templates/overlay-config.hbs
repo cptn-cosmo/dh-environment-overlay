@@ -1,0 +1,43 @@
+<form autocomplete="off">
+    <p class="notes">Configure the visual appearance of the Environment Overlay.</p>
+
+    <div class="form-group">
+        <label data-tooltip="Default: 80">Icon Size (px)</label>
+        <div class="form-fields">
+            <input type="range" name="iconSize" value="{{iconSize}}" min="30" max="200" step="5" data-dtype="Number">
+            <span class="range-value">{{iconSize}}</span>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label data-tooltip="Default: Rounded Square">Icon Shape</label>
+        <div class="form-fields">
+            <select name="iconShape" data-dtype="String">
+                {{selectOptions shapes selected=iconShape}}
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label data-tooltip="Default: #f3c267">Border & Glow Color</label>
+        <div class="form-fields">
+            <color-picker name="borderColor" value="{{borderColor}}"></color-picker>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label data-tooltip="Default: Checked">Show Actor Name</label>
+        <div class="form-fields">
+            <input type="checkbox" name="showName" {{checked showName}}>
+        </div>
+    </div>
+
+    <footer class="sheet-footer flexrow">
+        <button type="submit" name="submit">
+            <i class="fas fa-save"></i> Save Changes
+        </button>
+        <button type="button" data-action="reset">
+            <i class="fas fa-undo"></i> Reset Defaults
+        </button>
+    </footer>
+</form>

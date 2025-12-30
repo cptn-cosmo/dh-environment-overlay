@@ -1,3 +1,89 @@
+/* Configuration Window Styles */
+#dh-environment-overlay-config {
+    font-family: 'Montserrat', sans-serif;
+    color: light-dark(var(--dark-blue), var(--golden));
+    background-image: light-dark(url('/systems/daggerheart/assets/parchments/dh-parchment-light.png'), url('/systems/daggerheart/assets/parchments/dh-parchment-dark.png'));
+    background-repeat: no-repeat;
+    background-position: center;
+    border: none;
+    padding: 15px !important;
+}
+
+#dh-environment-overlay-config .form-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+#dh-environment-overlay-config .form-fields {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+#dh-environment-overlay-config .range-value {
+    min-width: 30px;
+    text-align: center;
+    font-weight: bold;
+    color: light-dark(var(--dark-blue), var(--golden));
+}
+
+#dh-environment-overlay-config .window-header {
+    background: transparent;
+    border-bottom: none;
+    color: light-dark(var(--dark-blue), var(--golden));
+    font-family: 'Cinzel Decorative', serif;
+}
+
+#dh-environment-overlay-config .window-title {
+    font-family: 'Cinzel Decorative', serif;
+    color: light-dark(var(--dark-blue), var(--golden));
+}
+
+#dh-environment-overlay-config h1 {
+    font-family: 'Cinzel Decorative', serif;
+    color: light-dark(var(--dark-blue), var(--golden));
+}
+
+#dh-environment-overlay-config label {
+    font-family: 'Montserrat', sans-serif;
+    color: light-dark(var(--dark-blue), var(--golden));
+}
+
+#dh-environment-overlay-config .notes {
+    font-family: 'Montserrat', sans-serif;
+    color: light-dark(var(--dark-blue-50), var(--golden-90));
+}
+
+#dh-environment-overlay-config .sheet-footer {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 10px;
+}
+
+#dh-environment-overlay-config .sheet-footer button {
+    font-family: 'Cinzel', serif;
+    color: light-dark(var(--dark-blue), var(--golden));
+    background: light-dark(transparent, var(--deep-black));
+    border: 1px solid light-dark(var(--dark-blue), var(--golden));
+    box-shadow: 0 0 5px var(--soft-shadow);
+    height: 40px;
+    width: 140px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#dh-environment-overlay-config .sheet-footer button:hover {
+    border-color: light-dark(var(--dark-blue), var(--golden));
+    color: light-dark(var(--dark-blue), var(--golden));
+    background: rgba(255, 255, 255, 0.1);
+}
+
 /* Scene Config Styles */
 .dh-environment-wrapper {
     margin-top: 10px;
@@ -72,7 +158,8 @@
 }
 
 #dh-environment-overlay img {
-    border-radius: 50%; /* Default fallback */
+    border-radius: 50%;
+    /* Default fallback */
     border: 3px solid var(--dh-overlay-color, #ffcc00);
     box-shadow: 0 0 10px var(--dh-overlay-color, rgba(0, 0, 0, 0.5));
     background-color: #000;
