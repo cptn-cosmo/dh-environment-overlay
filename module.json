@@ -1,6 +1,7 @@
 {
     "id": "dh-environment-overlay",
     "title": "Daggerheart Environment Overlay",
+    "description": "Links Environment actors to scenes, displaying them as interactive, movable overlays on the canvas.",
     "version": "1.0.0",
     "compatibility": {
         "minimum": "13",

@@ -10,7 +10,7 @@ Hooks.once("init", () => {
         scope: "world",
         config: true,
         type: String,
-        default: "#ffcc00",
+        default: "#f3c267",
         onChange: () => renderEnvironmentOverlay()
     });
 
@@ -271,7 +271,7 @@ Hooks.on("updateScene", (document, change, options, userId) => {
     if (!document.isView) return;
 
     if (canvas.scene && document.id === canvas.scene.id) {
-        if (hasProperty(change, `flags.${MODULE_ID}`)) {
+        if (foundry.utils.hasProperty(change, `flags.${MODULE_ID}`)) {
             const flags = change.flags[MODULE_ID];
             if (flags) {
                 if (flags[FLAG_KEY] !== undefined) {
