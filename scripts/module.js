@@ -14,6 +14,36 @@ Hooks.once("init", () => {
         onChange: () => renderEnvironmentOverlay()
     });
 
+    game.settings.register(MODULE_ID, "iconSize", {
+        name: "Icon Size",
+        hint: "Size of the environment token in pixels.",
+        scope: "world",
+        config: true,
+        type: Number,
+        range: {
+            min: 30,
+            max: 200,
+            step: 5
+        },
+        default: 80,
+        onChange: () => renderEnvironmentOverlay()
+    });
+
+    game.settings.register(MODULE_ID, "iconShape", {
+        name: "Icon Shape",
+        hint: "Shape of the environment token overlay.",
+        scope: "world",
+        config: true,
+        type: String,
+        choices: {
+            "rounded": "Rounded Square",
+            "square": "Square",
+            "circle": "Circle"
+        },
+        default: "rounded",
+        onChange: () => renderEnvironmentOverlay()
+    });
+
     game.settings.register(MODULE_ID, "showName", {
         name: "Show Actor Name",
         hint: "Display the environment actor's name below the token.",
@@ -175,15 +205,6 @@ async function renderEnvironmentOverlay() {
         if (!actor) return; // Maybe deleted?
 
         // PERMISSION CHECK
-        // testUserPermission second arg "OBSERVER" means user needs at least OBSERVER level.
-        // If users need only LIMITED, use "LIMITED". 
-        // For opening the sheet (which we do on click), usually OBSERVER/OWNER is needed to see much,
-        // but even LIMITED users can open sheet (partial view).
-        // Let's assume OBSERVER is good to see the overlay (since they can see the token).
-        // Actually, if it's an "Environment" actor, players might need at least Limited to interactions.
-        // Let's stick to OBSERVER as safe default, or LIMITED if desired.
-        // User said "players who have permissions to access the actor". 
-        // This implies at least LIMITED.
         if (!actor.testUserPermission(game.user, "LIMITED")) {
             return;
         }
@@ -192,6 +213,14 @@ async function renderEnvironmentOverlay() {
         const borderColor = game.settings.get(MODULE_ID, "borderColor");
         const showName = game.settings.get(MODULE_ID, "showName");
 
+        // New Settings
+        const iconSize = game.settings.get(MODULE_ID, "iconSize");
+        const iconShape = game.settings.get(MODULE_ID, "iconShape");
+
+        let borderRadius = "20%"; // Default rounded
+        if (iconShape === "circle") borderRadius = "50%";
+        if (iconShape === "square") borderRadius = "0";
+
         let styleStr = "";
         if (position.left !== undefined) styleStr += `left: ${position.left}px;`;
         else if (position.right !== undefined) styleStr += `right: ${position.right}px;`;
@@ -199,9 +228,16 @@ async function renderEnvironmentOverlay() {
         if (position.top !== undefined) styleStr += `top: ${position.top}px;`;
         else if (position.bottom !== undefined) styleStr += `bottom: ${position.bottom}px;`;
 
+        // Set width on container to ensure centering logic still works if relied on width
+        styleStr += `width: ${iconSize}px; --dh-overlay-color: ${borderColor};`;
+
         const overlay = $(`
             <div id="dh-environment-overlay" title="${actor.name}" style="${styleStr}">
-                <img src="${actor.img}" style="border-color: ${borderColor}">
+                <img src="${actor.img}" style="
+                    width: ${iconSize}px; 
+                    height: ${iconSize}px; 
+                    border-radius: ${borderRadius};
+                ">
                 ${showName ? `<div class="dh-environment-overlay-name">${actor.name}</div>` : ""}
             </div>
         `);
