@@ -1,0 +1,35 @@
+{
+    "id": "dh-environment-overlay",
+    "title": "Daggerheart Environment Overlay",
+    "description": "Links Environment actors to scenes, displaying them as interactive, movable overlays on the canvas.",
+    "version": "1.0.0",
+    "compatibility": {
+        "minimum": "13",
+        "verified": "13"
+    },
+    "authors": [
+        {
+            "name": "Antigravity"
+        }
+    ],
+    "relationships": {
+        "systems": [
+            {
+                "id": "daggerheart",
+                "type": "system",
+                "compatibility": {
+                    "minimum": "1.0.0"
+                }
+            }
+        ]
+    },
+    "esmodules": [
+        "scripts/module.js"
+    ],
+    "styles": [
+        "styles/module.css"
+    ],
+    "url": "",
+    "manifest": "",
+    "download": ""
+}
